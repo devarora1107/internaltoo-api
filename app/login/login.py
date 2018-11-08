@@ -1,12 +1,25 @@
-from flask import Blueprint
-
+from flask import Blueprint,request,jsonify
+from app.login import validation
+import json
+from bson import json_util, ObjectId
 login_blueprint=Blueprint('login',__name__)
 
-@login_blueprint.route('/login',method=['GET','POST'])
+@login_blueprint.route('/login',methods=['GET','POST'])
 def user_login():
-    data=request.form
-    if('email' and 'password') in data.keys():
+    if(request.method=='POST'):
+        data=request.form
+        
+        if('email' and 'password') in data.keys():
+            email=data['email']
+            password=data['password']
+            if(validation.validate_email(email)):
+                userDetails=validation.get_user_details(email,password)
+                return jsonify(userDetails)
+                
+            else:
+                return json.dumps('Invalid email')
 
-
+        else:
+            return json.dumps('incomplete  Data')
     else:
-        return 'Invalid Data'
+        return json.dumps('bad response')
