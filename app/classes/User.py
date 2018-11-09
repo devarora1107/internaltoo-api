@@ -11,15 +11,15 @@ class User():
     def get_password(self):
         return self.__password
     def set_password(self,password):
-        __password=password
+        self.__password=password
     def get_usertype(self):
         return self.__userType
     def set_usertype(self,userType):
-        __userType=userType
+        self.__userType=userType
     def get_username(self):
         return self.__userName
     def set_username(self,userName):
-        __userName=userName
+        self. __userName=userName
     def get_authentication(self):
         return self.__authenticate
     def set_authentication(self,authenticate):
@@ -37,6 +37,7 @@ class User():
     def get_user_details(self,email):
         from app.login import database
         user=database.get_user_db(self.get_email())
+        print user
         if(user):
             if(('userName' and 'password' and 'userType') in user.keys()):
                 self.set_usertype(user['userType'])
@@ -53,9 +54,9 @@ class User():
         result=self.get_user_details(self.get_email())
         
         if(result):
-            hashedPassword='$5$rounds=535000$6xg7DBI5Grwhcp/A$V.47Vzy5e08Rhj3mnx13ac/o.E4IrIOBsIJuLB/jV74'
+            hashedPassword=self.get_password()
             
-            if(sha256_crypt.verify('123456', hashedPassword)):
+            if(sha256_crypt.verify(password, hashedPassword)):
                 
                 self.set_authentication(True)
         else:

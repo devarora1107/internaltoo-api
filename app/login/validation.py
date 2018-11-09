@@ -24,6 +24,7 @@ def authenticate_user(email,password):
     user=User(email)
     user.verify_password(password)
     
+    
     if(user.get_authentication()):
         
         if(user.create_auth_token()):
