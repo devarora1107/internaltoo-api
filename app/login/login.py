@@ -17,9 +17,9 @@ def user_login():
                 return jsonify(userDetails)
                 
             else:
-                return json.dumps('Invalid email')
+                return jsonify({'message':'Invalid Email'})
 
         else:
-            return json.dumps('incomplete  Data')
+            return jsonify({'message':'Incomplete  Data'})
     else:
-        return json.dumps('bad response')
+        return jsonify({'message':'Invalid Data'})
