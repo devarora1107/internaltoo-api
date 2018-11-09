@@ -1,10 +1,11 @@
 class User():
     def __init__(self,email):
-        __email=email
-        __password=None
-        __userType=None
-        __userName=""
-        __authenticate=False
+        self.__email=email
+        self.__password=None
+        self.__userType=None
+        self. __userName=""
+        self.__authenticate=False
+        self.__token=None
     def get_email(self):
         return self.__email
     def get_password(self):
@@ -23,9 +24,15 @@ class User():
         return self.__authenticate
     def set_authentication(self,authenticate):
         self.__authenticate=authenticate
-    def hash_password(password):
+    def get_token(self):
+        return self.__token
+    def set_token(self,token):
+        __token=token
+    
+    def hash_password(self,password):
         from passlib.hash import sha256_crypt
         hashedPassword=sha256_crypt.hash(password)
+        
         return hashedPassword
     def get_user_details(self,email):
         from app.login import database
@@ -40,16 +47,36 @@ class User():
                 return 'Incompelte Data'
         else:
             return 'Not Registerted User'
-    def verify_password(self,email,password):
-        result=self.get_user_details(email)
+    def verify_password(self,password):
+        result=self.get_user_details(self.get_email())
+        print self.hash_password('123456')
         if(result):
-            hashedPassword=hash_password(password)
+            hashedPassword=self.hash_password(password)
+            print hashedPassword
             if(hashedPassword==self.get_password()):
+                
                 self.set_authentication(True)
         else:
             return result
 
-
+    def create_auth_token(self,):
+        
+        import jwt
+        try:
+            payload = {
+                'exp': datetime.datetime.utcnow() + datetime.timedelta(days=0, seconds=5),
+                'iat': datetime.datetime.utcnow(),
+                'sub': self.get_email()
+            }
+            self.set_token(jwt.encode(
+                payload,
+                app.config.get('SECRET_KEY'),
+                algorithm='HS256'
+            ))
+            return True
+        except Exception as e:
+            return False
+   
 
 
         

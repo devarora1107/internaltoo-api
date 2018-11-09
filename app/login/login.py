@@ -13,7 +13,8 @@ def user_login():
             email=data['email']
             password=data['password']
             if(validation.validate_email(email)):
-                userDetails=validation.get_user_details(email,password)
+                userDetails=validation.authenticate_user(email,password)
+                print userDetails
                 return jsonify(userDetails)
                 
             else:
