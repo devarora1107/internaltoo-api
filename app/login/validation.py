@@ -25,11 +25,12 @@ def authenticate_user(email,password):
     user.verify_password(password)
     
     if(user.get_authentication()):
+        
         if(user.create_auth_token()):
 
             return {
                 'message':'login succesfull',
-                'token':user.get_auth_token()
+                'token':user.get_token()
             }
         else:
             return {

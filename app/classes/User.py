@@ -27,7 +27,7 @@ class User():
     def get_token(self):
         return self.__token
     def set_token(self,token):
-        __token=token
+        self.__token=token
     
     def hash_password(self,password):
         from passlib.hash import sha256_crypt
@@ -41,6 +41,7 @@ class User():
             if(('userName' and 'password' and 'userType') in user.keys()):
                 self.set_usertype(user['userType'])
                 self.set_password(user['password'])
+                
                 self.set_username(user['userName'])
                 return True
             else:
@@ -48,12 +49,13 @@ class User():
         else:
             return 'Not Registerted User'
     def verify_password(self,password):
+        from passlib.hash import sha256_crypt
         result=self.get_user_details(self.get_email())
-        print self.hash_password('123456')
+        
         if(result):
-            hashedPassword=self.hash_password(password)
-            print hashedPassword
-            if(hashedPassword==self.get_password()):
+            hashedPassword='$5$rounds=535000$6xg7DBI5Grwhcp/A$V.47Vzy5e08Rhj3mnx13ac/o.E4IrIOBsIJuLB/jV74'
+            
+            if(sha256_crypt.verify('123456', hashedPassword)):
                 
                 self.set_authentication(True)
         else:
@@ -62,20 +64,21 @@ class User():
     def create_auth_token(self,):
         
         import jwt
-        try:
-            payload = {
-                'exp': datetime.datetime.utcnow() + datetime.timedelta(days=0, seconds=5),
-                'iat': datetime.datetime.utcnow(),
-                'sub': self.get_email()
-            }
-            self.set_token(jwt.encode(
-                payload,
-                app.config.get('SECRET_KEY'),
-                algorithm='HS256'
-            ))
-            return True
-        except Exception as e:
-            return False
+        import datetime
+        from app import app
+        payload = {
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(days=0, seconds=5),
+            'iat': datetime.datetime.utcnow(),
+            'sub': self.get_email()
+        }
+        
+        self.set_token(jwt.encode(
+            payload,
+            app.config.get('SECRET_KEY'),
+            algorithm='HS256'
+        ))
+        return True
+        
    
 
 
