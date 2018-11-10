@@ -32,7 +32,7 @@ class Token():
         from User import User
         user=User(self.get_email())
         if(user.get_user_details()):
-            return True
+            return user
         else:
             return False
 
