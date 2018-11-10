@@ -4,3 +4,5 @@ def create_user():
     userType=1
 
     #0 admin 1 for employee 2 party
+
+    

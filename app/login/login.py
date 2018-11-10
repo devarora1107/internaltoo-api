@@ -2,47 +2,70 @@ from flask import Blueprint,request,jsonify
 from app.login import validation
 import json
 from bson import json_util, ObjectId
+from exceptions import ExceptionInvalidMethod,ExceptionIncompleteData,ExceptionInvalidEmail
 login_blueprint=Blueprint('login',__name__)
 
 @login_blueprint.route('/login',methods=['GET','POST'])
 def user_login():
-    if(request.method=='POST'):
-        data=request.form
-        
-        if(all(elem in data/keys for elem in ['email','password'])):
-            email=data['email']
-            password=data['password']
-            if(validation.validate_email(email)):
-                userDetails=validation.authenticate_user(email,password)
-                print userDetails
-                return jsonify(userDetails)
-                
-            else:
-                return jsonify({'message':'Invalid Email'})
-
-        else:
-            return jsonify({'message':'Incomplete  Data'})
-    else:
-        return jsonify({'message':'Invalid Method'})
-
-
-@login_blueprint.route('/signup',methods=['POST'])
-def signup_user():
-    if(request.method=='POST'):
-        data=request.form
-        if(all(elem in data.keys()  for elem in ['email','password','userType'] )):
+    try:
+        if(request.method=='POST'):
+            data=request.form
             
-            email=data['email']
-            if(validation.validate_email(email)):
+            if(all(elem in data.keys() for elem in ['email','password'])):
+                email=data['email']
                 password=data['password']
-                userType=data['userType']
-                userDetails=validation.create_user(email,password,userType)
-                return jsonify(userDetails)
+                if(validation.validate_email(email)):
+                    userDetails=validation.authenticate_user(email,password)
+                    print userDetails
+                    return jsonify(userDetails)
+                    
+                else:
+                    raise ExceptionInvalidEmail
+
             else:
-                return jsonify({'message':'Invalid Email'})
-
-
+                raise ExceptionIncompleteData
         else:
-            return jsonify({'message':'Incomplete Data'})
+            raise ExceptionInvalidMethod
+    except ExceptionInvalidMethod as e:
+        return jsonify(e.value)
+    except ExceptionIncompleteData as e:
+        return jsonify(e.value)
+    except ExceptionInvalidEmail as e:
+        return jsonify(e.value)
+        
+
+
+@login_blueprint.route('/signup',methods=['POST','GET'])
+def signup_user():
+    try:
+        if(request.method=='POST'):
+            data=request.form
+            if(all(elem in data.keys()  for elem in ['email','password','userType'] )):
+                
+                email=data['email']
+                if(validation.validate_email(email)):
+                    password=data['password']
+                    userType=data['userType']
+                    userDetails=validation.create_user(email,password,userType)
+                    return jsonify(userDetails)
+                else:
+                    raise ExceptionInvalidEmail
+
+
+            else:
+                raise ExceptionIncompleteData
+        else:
+            raise ExceptionInvalidMethod
+    except ExceptionInvalidMethod as e:
+        return jsonify(e.value)
+    except ExceptionIncompleteData as e:
+        return jsonify(e.value)
+    except ExceptionInvalidEmail as e:
+        return jsonify(e.value)
+
+@login_blueprint.route('/registration',methods=['POST'])
+def registration():
+    if(request.method=='POST'):
+        data=request.form
     else:
-        return jsonify({'message':'Invalid Method'})
+        return {'message':'sdasd'}
