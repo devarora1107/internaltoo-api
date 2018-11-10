@@ -34,7 +34,7 @@ class User():
         hashedPassword=sha256_crypt.hash(password)
         
         return hashedPassword
-    def get_user_details(self,email):
+    def get_user_details(self):
         from app.login import database
         user=database.get_user_db(self.get_email())
         print user
@@ -68,7 +68,7 @@ class User():
         import datetime
         from app import app
         payload = {
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(days=0, seconds=5),
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(days=30, seconds=5),
             'iat': datetime.datetime.utcnow(),
             'sub': self.get_email()
         }
@@ -79,6 +79,15 @@ class User():
             algorithm='HS256'
         ))
         return True
+    def create_user(self):
+        from app.login import database
+        database.create_user_db({
+            'email':self.get_email(),
+            'password':self.get_password(),
+            'userType':self.get_usertype()
+            }
+            )
+        return 
         
    
 
