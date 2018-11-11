@@ -5,12 +5,13 @@ from bson import json_util, ObjectId
 from exceptions import ExceptionInvalidMethod,ExceptionIncompleteData,ExceptionInvalidEmail
 login_blueprint=Blueprint('login',__name__)
 
-@login_blueprint.route('/login',methods=['GET','POST'])
+@login_blueprint.route('/auth/login',methods=['GET','POST'])
 def user_login():
     try:
         if(request.method=='POST'):
-            data=request.form
+            data=request.json
             
+            #data={'email':'devarora2@outlook.com','password':'123456'}
             if(all(elem in data.keys() for elem in ['email','password'])):
                 email=data['email']
                 password=data['password']
@@ -41,7 +42,6 @@ def signup_user():
         if(request.method=='POST'):
             data=request.form
             if(all(elem in data.keys()  for elem in ['email','password','userType'] )):
-                
                 email=data['email']
                 if(validation.validate_email(email)):
                     password=data['password']

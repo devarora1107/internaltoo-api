@@ -43,7 +43,7 @@ class User():
                 self.set_usertype(user['userType'])
                 self.set_password(user['password'])
                 
-                self.set_username(user['userName'])
+                #self.set_username(user['userName'])
                 return True
             else:
                 return 'Incompelte Data'
@@ -51,7 +51,7 @@ class User():
             return 'Not Registerted User'
     def verify_password(self,password):
         from passlib.hash import sha256_crypt
-        result=self.get_user_details(self.get_email())
+        result=self.get_user_details()
         
         if(result):
             hashedPassword=self.get_password()
