@@ -40,10 +40,9 @@ class User():
         print user
         if(user):
             if(('userName' and 'password' and 'userType') in user.keys()):
-                self.set_usertype(user['userType'])
+                self.set_usertype(int(user['userType']))
                 self.set_password(user['password'])
-                
-                #self.set_username(user['userName'])
+                self.set_username(user['userName'])
                 return True
             else:
                 return 'Incompelte Data'
@@ -62,7 +61,7 @@ class User():
         else:
             return result
 
-    def create_auth_token(self,):
+    def create_auth_token(self):
         
         import jwt
         import datetime

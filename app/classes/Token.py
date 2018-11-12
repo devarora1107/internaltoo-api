@@ -20,7 +20,7 @@ class Token():
         from app import app
         import jwt
         try:
-            payload = jwt.decode(auth_token, app.config.get('SECRET_KEY'))
+            payload = jwt.decode(self.get_token(), app.config.get('SECRET_KEY'))
             self.set_email(payload['sub'])
             self.set_expirydate(payload['exp'])
             return True

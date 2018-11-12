@@ -1,6 +1,6 @@
 from flask import Blueprint,request,jsonify
 from app.login import validation
-import json
+
 from bson import json_util, ObjectId
 from exceptions import ExceptionInvalidMethod,ExceptionIncompleteData,ExceptionInvalidEmail
 login_blueprint=Blueprint('login',__name__)
