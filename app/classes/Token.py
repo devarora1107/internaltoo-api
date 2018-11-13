@@ -38,12 +38,18 @@ class Token():
         except jwt.InvalidTokenError:
             return 'Invalid token. Please log in again.'
     def verify_token(self):
+        if(self.set_token_headers()):
+            pass:
+        else:
+            return False
         from User import User
+
         user=User(self.get_email())
         if(user.get_user_details()):
             return user
         else:
             return False
+
 
 
 
