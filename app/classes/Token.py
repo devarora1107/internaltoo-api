@@ -7,6 +7,8 @@ class Token():
 
     def get_token(self):
         return self.__token
+    def set_token(self,token):
+        self.__token=token
     def get_expirydate(self):
         return self.__expiryDate
     def set_expirydate(self,date):
@@ -15,7 +17,14 @@ class Token():
         return self.__email
     def set_email(self,email):
         self.__email=email
-
+    def set_token_headers(self):
+        from flask import request
+        token=request.headers['X-Access-Token']
+        if(token):
+            self.set_token(token)
+            return True
+        else:
+            return False
     def decode_token(self):
         from app import app
         import jwt
