@@ -39,7 +39,7 @@ class Token():
             return 'Invalid token. Please log in again.'
     def verify_token(self):
         if(self.set_token_headers()):
-            pass:
+            pass
         else:
             return False
         from User import User
