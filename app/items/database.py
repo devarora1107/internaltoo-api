@@ -1,13 +1,12 @@
-
+from app.database import config
 global db,db_items
-
-def get_db():
-    from pymongo import MongoClient
-    client=MongoClient('localhost:27017')
-    db=client.internaltool
-    return db
-db=get_db()
+db=config.get_db()
 db_items=db.items
+
+def get_cat_id(self,cat_name):
+    return id
+def get_items(cat,subcat):
+    pass
 def insert_csv_items():
     print db_items.insert({'hello':'hello'})
     import unicodecsv

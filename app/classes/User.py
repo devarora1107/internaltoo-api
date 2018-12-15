@@ -6,6 +6,7 @@ class User():
         self. __userName=""
         self.__authenticate=False
         self.__token=None
+        self.__access={}
     def get_email(self):
         return self.__email
     def get_password(self):
@@ -28,7 +29,10 @@ class User():
         return self.__token
     def set_token(self,token):
         self.__token=token
-    
+    def get_access(self):
+        return self.__access
+    def set_access(self,access):
+        self.__access=access
     def hash_password(self,password):
         from passlib.hash import sha256_crypt
         hashedPassword=sha256_crypt.hash(password)
@@ -37,12 +41,13 @@ class User():
     def get_user_details(self):
         from app.login import database
         user=database.get_user_db(self.get_email())
-        print user
+        
         if(user):
-            if(('userName' and 'password' and 'userType') in user.keys()):
+            if(('userName' and 'password' and 'userType' and 'access') in user.keys()):
                 self.set_usertype(int(user['userType']))
                 self.set_password(user['password'])
                 self.set_username(user['userName'])
+                self.set_access(user['access'])
                 return True
             else:
                 return 'Incompelte Data'
@@ -83,10 +88,11 @@ class User():
         database.create_user_db({
             'email':self.get_email(),
             'password':self.get_password(),
-            'userType':self.get_usertype()
+            'userType':self.get_usertype(),
+            'access':self.get_access()
             }
             )
-        return 
+        return
         
    
 

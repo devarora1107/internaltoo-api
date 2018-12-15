@@ -1,18 +1,5 @@
-
-class ExceptionInvalidMethod(Exception):
+class ExceptionWrongPassword(Exception):
     def __init__(self):
-        self.value={'message':'Invalid Method'}
-    def __str__(self):
-        return repr(self.value)
-
-class ExceptionIncompleteData(Exception):
-    def __init__(self):
-        self.value={'message':'Incomplete Data'}
-    def __str__(self):
-        return repr(self.value)
-
-class ExceptionInvalidEmail(Exception):
-    def __init__(self):
-        self.value={'message':'Invalid Email'}
+        self.value={'message':'Wrong Password'}
     def __self__(self):
         return repr(self.value)

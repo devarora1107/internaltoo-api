@@ -10,6 +10,7 @@ def check_email_db(email):
         return False
 def get_user_db(email):
     cur=db_users.find({'email':email})
+    print cur
     try:
         for a in cur:
             return a
@@ -18,7 +19,7 @@ def get_user_db(email):
 
 
 def create_user_db(data):
-    email
+    
     try:
         cur=db_users.insert(data)
     except:

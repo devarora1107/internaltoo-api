@@ -3,18 +3,7 @@ import database
 from app.classes.User import User
 
 
-def check_empty_fields(data):
-    if(data is None or data is ''):
 
-        return False
-    else:
-        return True
-
-def validate_email(email):
-    result=re.match("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$",email)
-    return result
-def validate_mobile_number(number):
-    return true
 def validate_usertype(userType):
     try:
         if(int(userType) in [0,1,2]):
@@ -53,15 +42,18 @@ def authenticate_user(email,password):
 
             return {
                 'message':'login succesfull',
+                'status':True,
                 'token':user.get_token()
             }
         else:
             return {
-                'message':'Login Unsuccesfull'
+                'message':'Login Unsuccesfull',
+                'status':False
             }
     else:
         return {
-                'message':'Login Unsuccesfull'
+                'message':'Login Unsuccesfull',
+                'status':False
                 }
     
 def create_user(email,password,userType):
