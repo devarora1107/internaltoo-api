@@ -11,9 +11,11 @@ def get_items():
         return {'message':'token problem'}
     
     return jsonify(items)
-@items_blueprint.route('/items/categories',methods=['GET','POST'])
+@items_blueprint.route('/items/itemList',methods=['GET','POST'])
 def get_categories():
-    pass
+
+    list=[]
+    return 
 
 
 @items_blueprint.route('/items/availabilty/<item_code>',methods=['POST'])
