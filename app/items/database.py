@@ -16,15 +16,29 @@ def get_category():
     cur=db_category.find()
     try:
         for cat in cur:
+
             categories.append(cat)
     except:
         return []
+
+    
     return categories
 
 def set_category(category):
     cat_id='CAT00'+str(len(get_category())+1)
     category['cat_id']=cat_id
     db_category.insert(category)
+def get_subcategory_byObjectId(objectId):
+    cur=db_subcategory.find({'_id':objectId})
+    for data in cur:
+        return data
+    
+def get_items_objectid(objectId):
+    cur=db_items.find({'_id':objectId})
+    
+    for data in cur:
+        
+        return data
 
 
 def get_subcategory_objectid(subcategory):

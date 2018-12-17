@@ -49,7 +49,7 @@ def get_categories():
         
     return categories
 
-print get_categories()
+#print get_categories()
 def get_items_cat(category,sub_category):
     items=database.get_items()
     item_list=[]
@@ -89,3 +89,40 @@ def put_item_in_category():
         data.append({category:data_sub})
     return data
 
+def get_category_list_populated():
+
+    categories=database.get_category()
+    data={}
+    i=1
+    for category in categories:
+        
+        
+        sub_categories=category['sub_category']
+        sub_category_data=[]
+        for sub_category in sub_categories:
+            r=database.get_subcategory_byObjectId(sub_category)
+            
+            itemList=r['itemList']
+            items=[]
+            for item in itemList:
+                
+                result=database.get_items_objectid(item)
+
+                items.append(result)
+                
+            
+            sub_category_data.append({
+                'subcat_id':r['subcat_id'],
+                'items':items,
+                'title':r['title'],
+            })
+            
+        data[i]={
+            'cat_id':category['cat_id'],
+            'title':category['title'],
+            'sub_catgeory':sub_category_data,
+        }
+        
+        i+=1
+    return data
+print get_category_list_populated()
